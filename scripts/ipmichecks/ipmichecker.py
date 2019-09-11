@@ -1,4 +1,3 @@
-
 #! /bin/python
 
 """
@@ -9,6 +8,8 @@ it will simply return 'OK'.
 This is written because zabbix's ipmi checks can only get the Sensor value and
 not the status. With this script, we don't have to worry about creating custom
 triggers for everything.
+
+Run this script as an external check in zabbix.
 """
 
 import subprocess
@@ -59,4 +60,9 @@ output = filter(None, p.map(get_status, ipmi_ip_list))
 allproblems = {}
 for item in output:
     allproblems.update(item)
-sys.stdout.write(json.dumps(allproblems, indent=4))
+
+if allproblems != {}:
+    sys.stdout.write(json.dumps(allproblems, indent=4))
+else:
+    sys.stdout.write("ItsAllGood")
+
