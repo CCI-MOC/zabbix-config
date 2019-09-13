@@ -1,3 +1,4 @@
+#! /usr/bin/python
 """This script sends zabbix alerts to rocketchat.
 
 1. Place this script in /usr/lib/zabbix/alertscripts
@@ -6,15 +7,17 @@
 4. Add 3 script parameters: {ALERT.SENDTO}, {ALERT.SUBJECT} and {ALERT.MESSAGE}
 5. Set a user to use this Media Type and set it's sendto parameter the webhook
 for rocketchat.
-
 """
-#! /usr/bin/python
 
 import requests
 import sys
 
 url = sys.argv[1]
-subject = ":bomb: " + sys.argv[2] + " :bomb:"
+if "Resolved" in sys.argv[2]:
+    subject = ":tropical_drink: " + sys.argv[2] + " :beer:"
+else:
+    subject = ":bomb: " + sys.argv[2] + " :bomb:"
+
 message = sys.argv[3]
 
 payload = {"text": subject + "\n" + message + "\n"}
